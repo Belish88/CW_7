@@ -13,7 +13,6 @@ class Habit(models.Model):
                               related_name='owner')
     task = models.TextField(verbose_name='Действие')
     start_time = models.TimeField(verbose_name='Время начала', **NULL)
-    start_date = models.DateField(default=date.today(), verbose_name='Дата начала', **NULL)
     location = models.CharField(max_length=50, verbose_name='Место', **NULL)
     is_nice = models.BooleanField(default=False, verbose_name='Признак приятной привычки')
     related = models.ForeignKey('self', on_delete=models.SET_NULL, verbose_name='Привязка', **NULL)

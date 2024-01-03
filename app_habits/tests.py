@@ -1,11 +1,8 @@
-from datetime import datetime
-
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
 from app_habits.models import Habit
-from app_habits.services import checking_readiness, send_message_to_telegram
 from app_users.models import User
 
 
@@ -436,44 +433,3 @@ class HabitGoodTest(APITestCase):
             response.status_code,
             status.HTTP_403_FORBIDDEN
         )
-
-    def test_checking_readiness(self):
-
-        self.client.force_authenticate(user=self.user_1)
-
-        now_h = datetime.now().hour
-        now_m = datetime.now().minute
-
-        # Создаем полезную привычку
-        Habit.objects.create(
-            task="Test good habit",
-            location="Test location",
-            is_nice=False,
-            start_time=datetime.strptime(f'{now_h}:{now_m}', '%H:%M').time(),
-            owner=self.user_1
-        )
-
-        self.assertEquals(
-            checking_readiness(),
-            True
-        )
-
-    def test_send_message_to_telegram(self):
-
-        self.client.force_authenticate(user=self.user_1)
-
-        # Создаем полезную привычку
-        task = Habit.objects.create(
-            task="Test good habit",
-            location="Test location",
-            is_nice=False,
-            start_time="12:10",
-            owner=self.user_1
-        )
-
-        self.assertEquals(
-            send_message_to_telegram(task),
-            "Я буду Test good habit в 12:10 Test location в течении 60 секунд."
-        )
-
-

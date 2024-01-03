@@ -8,13 +8,13 @@ from app_habits.validators import (TimeToCompleteValidator, FillingNotOutTwoFiel
 class HabitSerializer(serializers.ModelSerializer):
     class Meta:
         model = Habit
-        exclude = ('start_date',)
+        fields = '__all__'
 
 
 class HabitNiceCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Habit
-        exclude = ('start_time', 'periodic', 'related', 'reward', 'start_date')
+        exclude = ('start_time', 'periodic', 'related', 'reward')
         read_only_fields = ('owner', 'is_nice')
         validators = [
             TimeToCompleteValidator('time_to_complete'),
@@ -26,7 +26,7 @@ class HabitGoodCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Habit
-        exclude = ('start_date',)
+        fields = '__all__'
         read_only_fields = ('owner', 'is_nice')
         validators = [
             FillingNotOutTwoFieldsValidator('related', 'reward'),
@@ -39,7 +39,7 @@ class HabitGoodUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Habit
-        exclude = ('start_date',)
+        fields = '__all__'
         read_only_fields = ('owner', 'is_nice')
         validators = [
             FillingNotOutTwoFieldsValidator('related', 'reward'),
