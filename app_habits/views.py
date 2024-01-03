@@ -25,7 +25,7 @@ class HabitNiceCreateAPIView(CreateAPIView):
 
 
 class HabitGoodCreateAPIView(CreateAPIView):
-
+    """Habit Good Create"""
     queryset = Habit.objects.all()
     serializer_class = HabitGoodCreateSerializer
     permission_classes = [IsAuthenticated, ~IsModerator]
@@ -37,7 +37,7 @@ class HabitGoodCreateAPIView(CreateAPIView):
 
 
 class HabitListAPIView(ListAPIView):
-
+    """Habit List"""
     filter_backends = [OrderingFilter, DjangoFilterBackend]
     ordering_fields = None
     filterset_fields = ('is_nice', )
@@ -66,14 +66,14 @@ class HabitListAPIView(ListAPIView):
 
 
 class HabitRetrieveAPIView(RetrieveAPIView):
-
+    """Habit Retrive"""
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
     permission_classes = [IsPublic | IsOwner | IsModerator]
 
 
 class HabitPublicListAPIView(ListAPIView):
-
+    """Habit Public List"""
     queryset = Habit.objects.filter(is_public=True)
     serializer_class = HabitListAllSerializer
     filter_backends = [OrderingFilter, DjangoFilterBackend]
@@ -83,8 +83,9 @@ class HabitPublicListAPIView(ListAPIView):
 
 
 class HabitUpdateAPIView(UpdateAPIView):
-
+    """Habit Update"""
     queryset = Habit.objects.all()
+    lookup_field = 'pk'
     permission_classes = [IsOwner | IsModerator]
 
     def get_serializer_class(self):
@@ -94,7 +95,7 @@ class HabitUpdateAPIView(UpdateAPIView):
 
 
 class HabitDestroyAPIView(DestroyAPIView):
-
+    """Habit Delete"""
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
     permission_classes = [IsOwner]
