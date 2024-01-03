@@ -1,10 +1,7 @@
-import smtplib
-
-from datetime import time, datetime, date, timedelta
+from datetime import datetime, date, timedelta
 
 import requests
 from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.schedulers.blocking import BlockingScheduler
 
 
 from app_habits.models import Habit
@@ -41,8 +38,8 @@ def checking_readiness():
                 if now_m == task.start_time.minute:
                     task.start_date = task.start_date + timedelta(days=int(task.periodic))
                     task.save()
-                    user_id = task.owner.telegram_id
-                    send_message_to_telegram(user_id, task)
+                    send_message_to_telegram(task)
+                    return True
 
 
 def start():
@@ -54,9 +51,9 @@ def start():
     return True
 
 
-def send_message_to_telegram(user_id, task):
+def send_message_to_telegram(task):
     """ Отправка сообщения """
-    chat_id = user_id
+    chat_id = task.owner.telegram_id
     start_time = task.start_time
     task_task = task.task
     location = task.location
@@ -73,8 +70,8 @@ def send_message_to_telegram(user_id, task):
     reward = f'\nЗа это, я {reward}.' if reward else ''
     # Формирование текста связанной привычки при наличии
     related = (f'\nПосле этого я {related.get("task")}'
-                     f' {related.get("location")} '
-                     f'в течении {related.get("time_to_complete")} секунд.') if related else ''
+               f' {related.get("location")} '
+               f'в течении {related.get("time_to_complete")} секунд.') if related else ''
 
     # Отправка сообщения
     tg_bot = TgBot(chat_id)

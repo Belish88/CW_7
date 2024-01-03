@@ -86,6 +86,7 @@ class HabitUpdateAPIView(UpdateAPIView):
     """Habit Update"""
     queryset = Habit.objects.all()
     lookup_field = 'pk'
+    serializer_class = HabitGoodUpdateSerializer
     permission_classes = [IsOwner | IsModerator]
 
     def get_serializer_class(self):
