@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'django_filters',
     'django_apscheduler',
+    'drf_yasg',
 
     'app_users',
     'app_habits'

@@ -12,7 +12,7 @@ from app_users.permissions import IsModerator, IsPublic, IsOwner
 
 
 class HabitNiceCreateAPIView(CreateAPIView):
-
+    """Habit Nice Create"""
     queryset = Habit.objects.all()
     serializer_class = HabitNiceCreateSerializer
     permission_classes = [IsAuthenticated, ~IsModerator]
