@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django_apscheduler',
     'drf_yasg',
     'corsheaders',
+    'django_celery_beat',
 
     'app_users',
     'app_habits'
@@ -164,7 +165,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',  #(IsAuthenticated)
+        'rest_framework.permissions.AllowAny',
     ],
 }
 
@@ -175,3 +176,10 @@ SIMPLE_JWT = {
 
 # Telegram settings
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+
+# Celery settings
+CELERY_BROKER_URL = 'redis://localhost:6379/0'  # URL-адрес брокера сообщений
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'  # URL-адрес брокера результатов, также Redis
+CELERY_TIMEZONE = 'UTC'  # Часовой пояс для работы Celery
+CELERY_TASK_TRACK_STARTED = True  # Флаг отслеживания выполнения задач
+CELERY_TASK_TIME_LIMIT = 30 * 60  # Максимальное время на выполнение задачи

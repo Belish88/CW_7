@@ -8,6 +8,7 @@ from app_habits.models import Habit
 from app_habits.paginators import HabitPaginator
 from app_habits.serializers import HabitNiceCreateSerializer, HabitGoodCreateSerializer, HabitListAllSerializer, \
     HabitListSerializer, HabitSerializer, HabitGoodUpdateSerializer
+from app_habits.services import add_task, update_task, delete_task
 from app_users.permissions import IsModerator, IsPublic, IsOwner
 
 
@@ -34,6 +35,7 @@ class HabitGoodCreateAPIView(CreateAPIView):
         new_habit = serializer.save()
         new_habit.owner = self.request.user
         new_habit.save()
+        add_task(new_habit)
 
 
 class HabitListAPIView(ListAPIView):
@@ -86,6 +88,7 @@ class HabitUpdateAPIView(UpdateAPIView):
     """Habit Update"""
     queryset = Habit.objects.all()
     lookup_field = 'pk'
+    serializer_class = HabitGoodUpdateSerializer
     permission_classes = [IsOwner | IsModerator]
 
     def get_serializer_class(self):
@@ -93,9 +96,17 @@ class HabitUpdateAPIView(UpdateAPIView):
             return HabitNiceCreateSerializer
         return HabitGoodUpdateSerializer
 
+    def perform_update(self, serializer):
+        obj = serializer.save()
+        update_task(obj)
+
 
 class HabitDestroyAPIView(DestroyAPIView):
     """Habit Delete"""
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
     permission_classes = [IsOwner]
+
+    def perform_destroy(self, instance):
+        delete_task(instance)
+        instance.delete()

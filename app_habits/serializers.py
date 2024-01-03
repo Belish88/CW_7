@@ -1,13 +1,14 @@
 from rest_framework import serializers
 
 from app_habits.models import Habit
-from app_habits.validators import TimeToCompleteValidator, FillingNotOutTwoFieldsValidator, RelatedHabitOnlyNiceValidator
+from app_habits.validators import (TimeToCompleteValidator, FillingNotOutTwoFieldsValidator,
+                                   RelatedHabitOnlyNiceValidator)
 
 
 class HabitSerializer(serializers.ModelSerializer):
     class Meta:
         model = Habit
-        fields = "__all__"
+        fields = '__all__'
 
 
 class HabitNiceCreateSerializer(serializers.ModelSerializer):
@@ -25,7 +26,7 @@ class HabitGoodCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Habit
-        fields = "__all__"
+        fields = '__all__'
         read_only_fields = ('owner', 'is_nice')
         validators = [
             FillingNotOutTwoFieldsValidator('related', 'reward'),
@@ -38,7 +39,7 @@ class HabitGoodUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Habit
-        fields = "__all__"
+        fields = '__all__'
         read_only_fields = ('owner', 'is_nice')
         validators = [
             FillingNotOutTwoFieldsValidator('related', 'reward'),
