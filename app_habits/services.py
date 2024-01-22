@@ -30,8 +30,8 @@ def get_schedule(habit: Habit):
 
     schedule, created = IntervalSchedule.objects.get_or_create(
         every=int(habit.periodic),
-        # period=IntervalSchedule.MINUTES,  Для проверки работоспособности
-        period=IntervalSchedule.DAYS,
+        period=IntervalSchedule.MINUTES,
+        # period=IntervalSchedule.DAYS,
     )
     return schedule
 
