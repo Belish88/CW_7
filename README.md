@@ -22,14 +22,14 @@ TZ=
 TELEGRAM_BOT_TOKEN=
 
 
-    Для первого запуска необходимо собрать образ контейнера. Для этого, находясь в корневой директории проекта необходимо выполнить команду:
+Для первого запуска необходимо собрать образ контейнера. Для этого, находясь в корневой директории проекта необходимо выполнить команду:
 
-sudo docker-compose build
+docker compose build
 
 
-    Для запуска проекта:
+Для запуска проекта:
 
-sudo docker-compose up
+docker compose up
 
 
 Веб приложение будет доступно по адресу: http://127.0.0.1:8000
@@ -37,7 +37,7 @@ sudo docker-compose up
 
 Cоздание admina:
 
-docker-compose exec app python3 manage.py csu
+docker compose exec app python3 manage.py csu
 
 Администратор:
 
